@@ -623,6 +623,7 @@ ac_includes_default="\
 
 ac_subst_vars='LTLIBOBJS
 LIBOBJS
+CCFLAGS
 DIRECTORIES
 RABBITMQ
 CURL
@@ -2866,6 +2867,9 @@ LDFLAGS="$LDFLAGS -L../build"
 # header files
 CPPFLAGS="$CPPFLAGS -I../include"
 
+# This is a shared library so compile position independent code
+CCFLAGS="$CCFLAGS -fPIC"
+
 # ======================================================================
 # Package generation
 
@@ -3997,6 +4001,8 @@ DIRS="lib $DIRS"
 DIRECTORIES=$DIRS
 
 CPPFLAGS=$CPPFLAGS
+
+CCFLAGS=$CCFLAGS
 
 LDFLAGS=$LDFLAGS
 

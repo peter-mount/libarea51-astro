@@ -8,7 +8,7 @@
 # OBJS	    The object files to be built, relative to that directory
 ######################################################################
 
-CFLAGS = -O2
+CCFLAGS = -O2 @CCFLAGS@
 CPPFLAGS = -I.. @CPPFLAGS@
 LDFLAGS ?= @LDFLAGS@
 
@@ -20,7 +20,8 @@ PACKAGE_DIR= $(BUILD_DIR)/package
 DIR = $(BUILD_DIR)/obj/$(MODULE)/$(MODULE)
 BIN_DIR = $(PACKAGE_DIR)/usr/bin
 INCLUDE_DIR = $(PACKAGE_DIR)/usr/include
-TARGET = $(PACKAGE_DIR)/usr/lib/lib$(MODULE).a
+
+TARGET = $(PACKAGE_DIR)/usr/lib/lib$(MODULE).so
 
 # Add destination build dir to OBJS so it's defined in a single location
 TARGET_OBJS = $(patsubst %.o, $(DIR)/%.o, $(OBJS))
@@ -33,7 +34,7 @@ all: $(TARGET) $(TARGET_APPS)
 # Build the .a and copy any .h
 $(TARGET): $(TARGET_OBJS) $(TARGET_H)
 	@mkdir -p $(@D)
-	ar rcs $@ $^
+	$(CC) -shared -o $@ $^
 	@if [ -d ../include/$(MODULE) ] ;\
 	then \
 	    mkdir -p $(INCLUDE_DIR) ;\
@@ -46,7 +47,7 @@ clean:
 
 $(DIR)/%.o: %.c
 	@mkdir -p $(@D)
-	$(CC) $(CPPFLAGS) -c $< -o $@
+	$(CC) $(CPPFLAGS) $(CCFLAGS) -c $< -o $@
 
 ${BIN_DIR}/%: %.o
 	@mkdir -p $(@D)

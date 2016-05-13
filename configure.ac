@@ -19,6 +19,9 @@ LDFLAGS="$LDFLAGS -L../build"
 # header files
 CPPFLAGS="$CPPFLAGS -I../include"
 
+# This is a shared library so compile position independent code
+CCFLAGS="$CCFLAGS -fPIC"
+
 # ======================================================================
 # Package generation
 
@@ -198,6 +201,7 @@ DIRS="lib $DIRS"
 
 AC_SUBST([DIRECTORIES],[$DIRS])
 AC_SUBST([CPPFLAGS],[$CPPFLAGS])
+AC_SUBST([CCFLAGS],[$CCFLAGS])
 AC_SUBST([LDFLAGS],[$LDFLAGS])
 
 # Build make files

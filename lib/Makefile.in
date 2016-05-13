@@ -1,4 +1,4 @@
-MODULE = astro
+MODULE = area51astro
 
 # ======================================================================
 # This library is a suite of astronomical functions for calculating
