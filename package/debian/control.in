@@ -1,0 +1,10 @@
+Package: libarea51-astro
+Version: @PACKAGE_VERSION@
+Depends: @DEPENDENCIES@
+Section: custom
+Priority: optional
+Architecture: @ARCHITECTURE@
+Essential: no
+Installed-Size: 1024
+Maintainer: area51.onl
+Description: Area51 library astronomical routines
