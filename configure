@@ -625,7 +625,6 @@ ac_subst_vars='LTLIBOBJS
 LIBOBJS
 CCFLAGS
 DIRECTORIES
-RABBITMQ
 CURL
 EGREP
 GREP
@@ -687,9 +686,7 @@ ac_subst_files=''
 ac_user_opts='
 enable_option_checking
 enable_dependencies
-with_sqlite
 with_curl
-with_rabbitmq
 '
       ac_precious_vars='build_alias
 host_alias
@@ -1325,9 +1322,7 @@ Optional Features:
 Optional Packages:
   --with-PACKAGE[=ARG]    use PACKAGE [ARG=yes]
   --without-PACKAGE       do not use PACKAGE (same as --with-PACKAGE=no)
-  --without-sqlite        disable sqlite support
   --without-curl          disable Curl HTTP support
-  --without-rabbitmq      disable RabbitMQ support
 
 Some influential environment variables:
   CC          C compiler command
@@ -3637,95 +3632,6 @@ then
 fi
 
 # ======================================================================
-# libsqlite optional for logging data
-# ======================================================================
-
-
-# Check whether --with-sqlite was given.
-if test "${with_sqlite+set}" = set; then :
-  withval=$with_sqlite;
-fi
-
-if test "x$with_sqlite" != "xno"; then :
-
-        sqlite=1
-        ac_fn_c_check_header_mongrel "$LINENO" "sqlite3.h" "ac_cv_header_sqlite3_h" "$ac_includes_default"
-if test "x$ac_cv_header_sqlite3_h" = xyes; then :
-
-else
-  sqlite=0
-fi
-
-
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for sqlite3_close in -lsqlite3" >&5
-$as_echo_n "checking for sqlite3_close in -lsqlite3... " >&6; }
-if ${ac_cv_lib_sqlite3_sqlite3_close+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lsqlite3  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char sqlite3_close ();
-int
-main ()
-{
-return sqlite3_close ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_sqlite3_sqlite3_close=yes
-else
-  ac_cv_lib_sqlite3_sqlite3_close=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_sqlite3_sqlite3_close" >&5
-$as_echo "$ac_cv_lib_sqlite3_sqlite3_close" >&6; }
-if test "x$ac_cv_lib_sqlite3_sqlite3_close" = xyes; then :
-  cat >>confdefs.h <<_ACEOF
-#define HAVE_LIBSQLITE3 1
-_ACEOF
-
-  LIBS="-lsqlite3 $LIBS"
-
-else
-  sqlite=0
-fi
-
-
-else
-
-        sqlite=0
-
-fi
-if test $sqlite == 1; then :
-
-        { $as_echo "$as_me:${as_lineno-$LINENO}: Enabling sqlite support" >&5
-$as_echo "$as_me: Enabling sqlite support" >&6;}
-        $as_echo "#define HAVE_SQLITE 1" >>confdefs.h
-
-        LDFLAGS="$LDFLAGS -lsqlite3"
-
-else
-
-        { $as_echo "$as_me:${as_lineno-$LINENO}: Disabled sqlite support" >&5
-$as_echo "$as_me: Disabled sqlite support" >&6;}
-
-fi
-
-# ======================================================================
 # libcurl3 optional for logging data to 3rd party websites
 # ======================================================================
 
@@ -3817,100 +3723,6 @@ CURL=${curl}
 
 
 # ======================================================================
-# librabbitmq optional for logging data to a RabbitMQ server
-#
-# Note, the DIR in use here is rabbitmq-logger and not rabbitmq as thats
-# the external libraries name
-# ======================================================================
-
-
-# Check whether --with-rabbitmq was given.
-if test "${with_rabbitmq+set}" = set; then :
-  withval=$with_rabbitmq;
-fi
-
-if test "x$with_rabbitmq" != "xno"; then :
-
-        rabbitmq=1
-        ac_fn_c_check_header_mongrel "$LINENO" "amqp.h" "ac_cv_header_amqp_h" "$ac_includes_default"
-if test "x$ac_cv_header_amqp_h" = xyes; then :
-
-else
-  rabbitmq=0
-fi
-
-
-        { $as_echo "$as_me:${as_lineno-$LINENO}: checking for amqp_new_connection in -lrabbitmq" >&5
-$as_echo_n "checking for amqp_new_connection in -lrabbitmq... " >&6; }
-if ${ac_cv_lib_rabbitmq_amqp_new_connection+:} false; then :
-  $as_echo_n "(cached) " >&6
-else
-  ac_check_lib_save_LIBS=$LIBS
-LIBS="-lrabbitmq  $LIBS"
-cat confdefs.h - <<_ACEOF >conftest.$ac_ext
-/* end confdefs.h.  */
-
-/* Override any GCC internal prototype to avoid an error.
-   Use char because int might match the return type of a GCC
-   builtin and then its argument prototype would still apply.  */
-#ifdef __cplusplus
-extern "C"
-#endif
-char amqp_new_connection ();
-int
-main ()
-{
-return amqp_new_connection ();
-  ;
-  return 0;
-}
-_ACEOF
-if ac_fn_c_try_link "$LINENO"; then :
-  ac_cv_lib_rabbitmq_amqp_new_connection=yes
-else
-  ac_cv_lib_rabbitmq_amqp_new_connection=no
-fi
-rm -f core conftest.err conftest.$ac_objext \
-    conftest$ac_exeext conftest.$ac_ext
-LIBS=$ac_check_lib_save_LIBS
-fi
-{ $as_echo "$as_me:${as_lineno-$LINENO}: result: $ac_cv_lib_rabbitmq_amqp_new_connection" >&5
-$as_echo "$ac_cv_lib_rabbitmq_amqp_new_connection" >&6; }
-if test "x$ac_cv_lib_rabbitmq_amqp_new_connection" = xyes; then :
-  cat >>confdefs.h <<_ACEOF
-#define HAVE_LIBRABBITMQ 1
-_ACEOF
-
-  LIBS="-lrabbitmq $LIBS"
-
-else
-  rabbitmq=0
-fi
-
-
-else
-
-        rabbitmq=0
-
-fi
-if test $rabbitmq == 1; then :
-
-        { $as_echo "$as_me:${as_lineno-$LINENO}: Enabling RabbitMQ support" >&5
-$as_echo "$as_me: Enabling RabbitMQ support" >&6;}
-        $as_echo "#define HAVE_RABBITMQ 1" >>confdefs.h
-
-        LDFLAGS="$LDFLAGS -lrabbitmq"
-
-else
-
-        { $as_echo "$as_me:${as_lineno-$LINENO}: Disabled RabbitMQ support" >&5
-$as_echo "$as_me: Disabled RabbitMQ support" >&6;}
-
-fi
-RABBITMQ=${rabbitmq}
-
-
-# ======================================================================
 # gd required for annotating images
 # ======================================================================
 
@@ -3993,10 +3805,9 @@ done
 
 #LDFLAGS="$LDFLAGS -lscheduler -lastro -lweather -lpthread -lm"
 
-LDFLAGS="$LDFLAGS -lpthread -lm"
+LDFLAGS="-larea51astro $LDFLAGS -larea51 -lpthread -lm"
 
-#DIRS="lib astro scheduler $DIRS"
-DIRS="lib $DIRS"
+DIRS="lib $DIRS ephemeris"
 
 DIRECTORIES=$DIRS
 

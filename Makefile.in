@@ -10,9 +10,6 @@ endif
 .PHONY: all
 all: $(DIRECTORIES) $(PACKAGES)
 
-.PHONY: apps
-apps: $(DIRECTORIES)
-
 .PHONY: clean
 clean:
 	rm -rf build

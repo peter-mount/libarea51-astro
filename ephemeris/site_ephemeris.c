@@ -49,7 +49,7 @@ int main(int argc, char **argv) {
     struct charbuffer b;
     charbuffer_init(&b);
 
-    config_parse_dir("/etc/weather");
+    config_parse_dir("/etc/area51");
     astro_init();
 
     time_t now;

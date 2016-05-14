@@ -1,5 +1,5 @@
 MODULE = ephemeris
 
-APPS = ephemeris
+APPS = site_ephemeris
 
 include ../SubMakefile

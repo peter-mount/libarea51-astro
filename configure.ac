@@ -80,29 +80,6 @@ then
 fi
 
 # ======================================================================
-# libsqlite optional for logging data
-# ======================================================================
-AH_TEMPLATE(HAVE_SQLITE, [sqlite embedded sql database])
-AC_ARG_WITH([sqlite],
-    AS_HELP_STRING([--without-sqlite], [disable sqlite support]))
-AS_IF([test "x$with_sqlite" != "xno"],
-    [
-        sqlite=1
-        AC_CHECK_HEADER(sqlite3.h, [], [sqlite=0])
-        AC_CHECK_LIB(sqlite3, sqlite3_close, [], [sqlite=0])
-    ],[
-        sqlite=0
-    ])
-AS_IF([test $sqlite == 1],
-    [
-        AC_MSG_NOTICE([Enabling sqlite support])
-        AC_DEFINE(HAVE_SQLITE)
-        LDFLAGS="$LDFLAGS -lsqlite3"
-    ],[
-        AC_MSG_NOTICE([Disabled sqlite support])
-    ])
-
-# ======================================================================
 # libcurl3 optional for logging data to 3rd party websites
 # ======================================================================
 AH_TEMPLATE(HAVE_CURL, [Curl HTTP client])
@@ -125,33 +102,6 @@ AS_IF([test $curl == 1],
         AC_MSG_NOTICE([Disabled Curl HTTP support])
     ])
 AC_SUBST([CURL],[${curl}])
-
-# ======================================================================
-# librabbitmq optional for logging data to a RabbitMQ server
-#
-# Note, the DIR in use here is rabbitmq-logger and not rabbitmq as thats
-# the external libraries name
-# ======================================================================
-AH_TEMPLATE(HAVE_RABBITMQ, [RabbitMQ messaging server])
-AC_ARG_WITH([rabbitmq],
-    AS_HELP_STRING([--without-rabbitmq], [disable RabbitMQ support]))
-AS_IF([test "x$with_rabbitmq" != "xno"],
-    [
-        rabbitmq=1
-        AC_CHECK_HEADER(amqp.h, [], [rabbitmq=0])
-        AC_CHECK_LIB(rabbitmq, amqp_new_connection, [], [rabbitmq=0])
-    ],[
-        rabbitmq=0
-    ])
-AS_IF([test $rabbitmq == 1],
-    [
-        AC_MSG_NOTICE([Enabling RabbitMQ support])
-        AC_DEFINE(HAVE_RABBITMQ)
-        LDFLAGS="$LDFLAGS -lrabbitmq"
-    ],[
-        AC_MSG_NOTICE([Disabled RabbitMQ support])
-    ])
-AC_SUBST([RABBITMQ],[${rabbitmq}])
 
 # ======================================================================
 # gd required for annotating images
@@ -194,10 +144,9 @@ done
 
 #LDFLAGS="$LDFLAGS -lscheduler -lastro -lweather -lpthread -lm"
 
-LDFLAGS="$LDFLAGS -lpthread -lm"
+LDFLAGS="-larea51astro $LDFLAGS -larea51 -lpthread -lm"
 
-#DIRS="lib astro scheduler $DIRS"
-DIRS="lib $DIRS"
+DIRS="lib $DIRS ephemeris"
 
 AC_SUBST([DIRECTORIES],[$DIRS])
 AC_SUBST([CPPFLAGS],[$CPPFLAGS])

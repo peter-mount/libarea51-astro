@@ -1,0 +1,15 @@
+# Example configuration file for an observatory, defining the common point for all calculations
+#
+# This file consists of the [observatory] section and 4 properties:
+#
+# name          Local name of this location. This field is free form and can contain anything.
+# longitude     The sites longitude in decimal degrees. East of Greenwich is positive, West negative.
+# latitude      The sites latitude in decimal degrees. North is positive.
+# altitude      The sites altitude in metres from mean sea level (MSL).
+#
+
+[observatory]
+name            Maidstone, Kent, UK
+longitude       0.529579
+latitude        51.271749
+altitude        110.515
