@@ -1,0 +1,5 @@
+MODULE = ephemeris
+
+APPS = site_ephemeris
+
+include ../SubMakefile

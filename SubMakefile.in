@@ -1,0 +1,62 @@
+######################################################################
+# Common build file used by all subdirectories
+#
+# With this, the subdirectories Makefile.in should include this file
+# after defining two variables:
+#
+# MODULE    The name of the library being built
+# OBJS	    The object files to be built, relative to that directory
+######################################################################
+
+CCFLAGS = -O2 @CCFLAGS@
+CPPFLAGS = -I.. @CPPFLAGS@
+LDFLAGS ?= @LDFLAGS@
+
+# Location of build directory
+BUILD_DIR   = ../build
+
+# Library destination & directory for individual build targets
+PACKAGE_DIR = $(BUILD_DIR)/package
+DIR	    = $(BUILD_DIR)/obj/$(MODULE)/$(MODULE)
+BIN_DIR	    = $(PACKAGE_DIR)/usr/bin
+INCLUDE_DIR = $(PACKAGE_DIR)/usr/include
+ETC_DIR	    =$(PACKAGE_DIR)/etc/area51
+
+TARGET	    = $(PACKAGE_DIR)/usr/lib/lib$(MODULE).so
+
+# Add destination build dir to OBJS so it's defined in a single location
+TARGET_OBJS = $(patsubst %.o, $(DIR)/%.o, $(OBJS))
+
+# Any applications?
+TARGET_APPS = $(patsubst %, ${BIN_DIR}/%, $(APPS))
+
+all:
+	@if [ -n "$(TARGET_OBJS)" ]; then $(MAKE) $(TARGET);fi;
+	@if [ -n "$(TARGET_APPS)" ]; then $(MAKE) $(TARGET_APPS);fi;
+	@if [ -d ../include/$(MODULE) ] ;\
+	then \
+	    mkdir -p $(INCLUDE_DIR) ;\
+	    cp -rp ../include/${MODULE} $(INCLUDE_DIR) ;\
+	fi
+	@if [ -d ../etc/$(MODULE) ] ;\
+	then \
+	    mkdir -p $(ETC_DIR) ;\
+	    cp -rp ../etc/${MODULE}/* $(ETC_DIR) ;\
+	fi
+
+# Build the .a and copy any .h
+$(TARGET): $(TARGET_OBJS)
+	@mkdir -p $(@D)
+	$(CC) -shared -o $@ $^
+
+clean:
+	rm -rf $(DIR)
+	rm -f $(TARGET)
+
+$(DIR)/%.o: %.c
+	@mkdir -p $(@D)
+	$(CC) $(CPPFLAGS) $(CCFLAGS) -c $< -o $@
+
+${BIN_DIR}/%: %.o
+	@mkdir -p $(@D)
+	$(CC) -o $@ $< $(LDFLAGS)
