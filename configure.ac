@@ -144,7 +144,7 @@ done
 
 #LDFLAGS="$LDFLAGS -lscheduler -lastro -lweather -lpthread -lm"
 
-LDFLAGS="-larea51astro $LDFLAGS -larea51 -lpthread -lm"
+LDFLAGS="-larea51-astro $LDFLAGS -larea51 -lpthread -lm"
 
 DIRS="lib $DIRS ephemeris"
 
