@@ -1,7 +1,7 @@
 # autoconf script for building the pi weather station
 #
-AC_INIT([area51astro], [0.1], [peter@retep.org])
-AC_MSG_NOTICE([libarea51astro])
+AC_INIT([area51-astro], [0.1], [peter@retep.org])
+AC_MSG_NOTICE([libarea51-astro])
 
 # Check for gcc
 AC_PROG_CC
