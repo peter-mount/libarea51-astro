@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "area51/config.h"
+#include <area51/config.h>
 #include "area51/astro/observatory.h"
 
 OBSERVATORY observatory;
