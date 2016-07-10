@@ -30,22 +30,12 @@ TARGET_OBJS = $(patsubst %.o, $(DIR)/%.o, $(OBJS))
 # Any applications?
 TARGET_APPS = $(patsubst %, ${BIN_DIR}/%, $(APPS))
 
-all:
-	@if [ -n "$(TARGET_OBJS)" ]; then $(MAKE) $(TARGET);fi;
-	@if [ -n "$(TARGET_APPS)" ]; then $(MAKE) $(TARGET_APPS);fi;
-	@if [ -d ../include/$(MODULE) ] ;\
-	then \
-	    mkdir -p $(INCLUDE_DIR) ;\
-	    cp -rp ../include/${MODULE} $(INCLUDE_DIR) ;\
-	fi
-	@if [ -d ../etc/$(MODULE) ] ;\
-	then \
-	    mkdir -p $(ETC_DIR) ;\
-	    cp -rp ../etc/${MODULE}/* $(ETC_DIR) ;\
-	fi
+all: $(TARGET) $(TARGET_APPS)
 
 # Build the .a and copy any .h
-$(TARGET): $(TARGET_OBJS)
+$(TARGET): $(TARGET_OBJS) $(TARGET_H)
+	@mkdir -p ${PACKAGE_DIR}/usr/
+	@cp -rp ../include ${PACKAGE_DIR}/usr/
 	@mkdir -p $(@D)
 	$(CC) -shared -o $@ $^
 

@@ -190,7 +190,7 @@ int main(int argc, char **argv) {
 
     int len;
     char *p = charbuffer_tostring(&b, &len);
-    printf(p);
+    printf( "%s", p);
     free(p);
     charbuffer_free(&b);
 }
